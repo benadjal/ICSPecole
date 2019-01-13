@@ -1,18 +1,111 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title>inscription élève</title>
+	<meta charset="utf-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<style type="text/css">
+		body #form_ins {
+			width: 420px;
+			height: 570px;
+			border: solid;
+			padding: 20px;
+			position: absolute;
+  			top: 100px;
+  			left: 500px; 
+		}
+
+		.tuteur{
+			display: none;
+		}
+		.etablissement{
+			display: none;
+		}
+	</style>
 </head>
 <body>
-<div>
+	
+	<div>
 
-	{% if envoi %}Votre message a bien été envoyé ! M. {{ nom }}{% endif %}
+		{% if envoi %}Votre message a bien été envoyé ! M. {{ nom }} {{ prenom }} {{ datenaissance }}{% endif %}
+		<div id="form_ins">
+			<form action="{% url 'eleve' %}" method="post">
+				{% csrf_token %}
+				<table>
+					<tr><td>Nom :</td><td><input type="text" name="nom"></td></tr>
+					<tr><td>Prenom :</td><td><input type="text" name="prenom"></td></tr>
+					<tr><td>Date naissance :</td><td><input type="date" name="date_naissance"></td></tr>
+					<tr><td>Lieu naissance :</td><td><input type="text" name="lieu_naissance"></td></tr>
+					<tr><td>E-mail :</td><td><input type="email" name="email"></td></tr>
+					<tr><td>Téléphone :</td><td><input type="text" name="telephone"></td></tr>
+					<tr><td>Tuteur :</td><td><input type="text" name="tuteur"></td><td id="plus_tuteur"><img src="\static\img\plus.png" height="20px" width="20px"></td></tr>
+						<tr class="tuteur"><td></td><td>Nom de tuteur:</td><td><input id="nom_tuteur" type="text" name="nom_tuteur"></td></tr>
+						<tr class="tuteur"><td></td><td>Prenom de tuteur:</td><td><input id="prenom_tuteur" type="text" name="prenom_tuteur"></td></tr>
+						<tr class="tuteur"><td></td><td>E-mail :</td><td><input id="email_tuteur" type="text" name="email_tuteur"></td></tr>
+						<tr class="tuteur"><td></td><td>Téléphone :</td><td><input id="telephone_tuteur" type="text" name="telephone_tuteur"></td></tr>
+						<tr class="tuteur"><td></td><td></td><td><input id="ajoutTuteur" type="button" name="creer_tuteur" value="Créer"></td></tr>
+						
+					<tr><td>Niveau :</td><td><input type="text" name="niveau"></td></tr>
+					<tr><td>Filiére :</td><td><input type="text" name="filiere"></td></tr>
+					<tr><td>Etablissement :</td><td><input type="text" name="etablissement"></td><td id="plus_etablissement"><img src="\static\img\plus.png" height="20px" width="20px"></td></tr>
 
-	<form action="{% url 'eleve' %}" method="post">
-    	{% csrf_token %}
-    	{{ form.as_p }}
-    	<input type="submit" value="Submit" />
-	</form>
-</div>
+						<tr class="etablissement"><td></td><td>Nom établissement :</td><td><input id="nom_etablissement" type="text" name="nom_etablissement"></td></tr>
+						<tr class="etablissement"><td></td><td>Adresse :</td><td><input id="adresse_etablissement" type="text" name="adresse_etablissement"></td></tr>
+						<tr class="etablissement"><td></td><td></td><td><input id="ajoutEtablissement" type="button" name="creer_etablissement" value="Créer"></td></tr>
+
+					<tr><td>Moyenne :</td><td><input type="text" name="moyenne"></td></tr>
+					<tr><td>Année scoalire :</td><td><input type="text" name="anneescolaire"></td></tr>
+	     		</table>
+	    		<input type="submit" value="Submit" />
+			</form>
+		</div>	
+	</div>
+	
 </body>
+<script type="text/javascript">
+	$(document).ready(function(){
+  		$("#plus_tuteur").click(function(){
+    		$(".tuteur").show();
+    	});
+
+    	$("#plus_etablissement").click(function(){
+    		$(".etablissement").show();
+    	});
+
+    	$("#ajoutTuteur").click(function(){
+    		$.ajax({
+                type:"POST",
+                url:"tuteur/",
+                dataType:"json",
+                data: {
+                		csrfmiddlewaretoken: '{{ csrf_token }}',
+                        nom_tuteur : $("#nom_tuteur").val(),
+                        prenom_tuteur : $("#prenom_tuteur").val(),
+                        email_tuteur : $("#email_tuteur").val(),
+                        telephone_tuteur : $("#telephone_tuteur").val()
+                        },
+                success: function(){
+                     console.log("success"); 
+                    }
+            });
+    	});
+
+    	$("#ajoutEtablissement").click(function(){
+    		$.ajax({
+                type:"POST",
+                url:"etablissement/",
+                dataType:"json",
+                data: {
+                		csrfmiddlewaretoken: '{{ csrf_token }}',
+                        nom_etablissement : $("#nom_etablissement").val(),
+                        adresse_etablissement : $("#adresse_etablissement").val()
+                        },
+                success: function(){
+                     console.log("success etablissement"); 
+                    }
+            });
+    	});
+  	});
+</script>
 </html>

@@ -4,6 +4,6 @@ from eleve import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('acceuil',views.hello),
+    path('acceuil',views.acceuil),
     path('eleve/',include('eleve.urls')),
 ]

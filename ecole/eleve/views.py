@@ -1,39 +1,83 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import HttpRequest
 from .forms import InscriptionEleveForm
-from .models import inscription_eleve
-def hello(request):
-	return HttpResponse("""<p>hello word!</p>""")
+from .models import ajout_eleve
+from .models import ajout_tuteur
+from .models import ajout_etablissement
+def acceuil(request):
+    return render(request,'acceuil.html',locals())
 
 def inscription_get(request):
-	form = InscriptionEleveForm()
-	return render(request,'eleve/inscription.html',locals())
+    #form = InscriptionEleveForm()
+    return render(request,'eleve/inscription.html',locals())
 
 
 
 def inscription_post(request):
-    # Construire le formulaire, soit avec les données postées,
-    # soit vide si l'utilisateur accède pour la première fois
-    # à la page.
-    form = InscriptionEleveForm(request.POST or None)
-    # Nous vérifions que les données envoyées sont valides
-    # Cette méthode renvoie False s'il n'y a pas de données 
-    # dans le formulaire ou qu'il contient des erreurs.
-    if form.is_valid(): 
+    
+    #form = InscriptionEleveForm(request.POST or None)
+    #if form.is_valid(): 
         # Ici nous pouvons traiter les données du formulaire
-        eleve = {}
-        eleve['nom'] = form.cleaned_data['nom']
-        eleve['prenom'] = form.cleaned_data['prenom']
-        eleve['datenaissance'] = form.cleaned_data['date_naissance']
-        eleve['lieunaissance'] = form.cleaned_data['lieu_naissance']
-        eleve['email'] = form.cleaned_data['e_mail']
-        eleve['telephone'] = form.cleaned_data['telephone']
+    #print(request)
+    eleve = {}
+    
+    eleve['nom'] = request.POST['nom']
+    eleve['prenom'] = request.POST['prenom']
+    eleve['datenaissance'] = request.POST['date_naissance']
+    eleve['lieunaissance'] = request.POST['lieu_naissance']
+    eleve['email'] = request.POST['email']
+    eleve['telephone'] = request.POST['telephone']
+    print(eleve)
+    print(type(eleve))
+    eleveAdd = ajout_eleve(eleve)
+    envoi = True
+    
+    return render(request,'eleve/inscription.html',locals())            
+    
+def ajout_tuteur(request):
+    #print(request)
+    #tuteur = request.POST['data']
+     
+    tuteur = {}
+    """
+    tuteur['nom'] = request.POST['nom_tuteur']
+    tuteur['prenom'] = request.POST['prenom_tuteur']
+    tuteur['email'] = request.POST['email_tuteur']
+    tuteur['telephone'] = request.POST['telephone_tuteur']
+    """
+    nom = request.POST['nom_tuteur']
+    prenom = request.POST['prenom_tuteur']
+    email = request.POST['email_tuteur']
+    telephone = request.POST['telephone_tuteur']
+    print(tuteur)   
+    print(type(tuteur))
+    tuteurADD = ajout_tuteur(nom,prenom,email,telephone)
+    
+    print(tuteur['nom'])
+    print(tuteur['prenom'])
+    print(tuteur['email'])
+    print(tuteur['telephone'])
+    
+    return render(request,'eleve/inscription.html',locals())    
 
-        # Nous pourrions ici envoyer l'e-mail grâce aux données 
-        # que nous venons de récupérer
-        eleve22 = inscription_eleve(eleve)
-        envoi = True
-    # Quoiqu'il arrive, on affiche la page du formulaire.
-    return render(request,'eleve/inscription.html',locals())			
-
-# Create your views here.
+def ajout_etablissement(request):
+    #print(request)
+    #tuteur = request.POST['data']
+     
+    #etablissement = {}
+    #etablissement['nom'] = request.POST['nom_etablissement']
+    #etablissement['adresse'] = request.POST['adresse_etablissement']
+    #print(etablissement)   
+    #print(type(etablissement))
+    
+    etablissement1 = {}
+    etablissement1['nom'] = 'nom_etablissement'
+    etablissement1['adresse'] = 'adresse_etablissement'
+    
+    etablissementADD = ajout_etablissement(etablissement1)
+    """
+    print(etablissement['nom'])
+    print(etablissement['adresse'])
+    """
+    return render(request,'eleve/inscription.html',locals())     

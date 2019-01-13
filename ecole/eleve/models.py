@@ -2,48 +2,27 @@ from django.db import models
 from django.utils import timezone
 from django.db import connection
 
-"""
-class Article(models.Model):
-    titre = models.CharField(max_length=100)
-    auteur = models.CharField(max_length=42)
-    contenu = models.TextField(null=True)
-    date = models.DateTimeField(default=timezone.now, 
-                                verbose_name="Date de parution")
-    
-    class Meta:
-        verbose_name = "article"
-        ordering = ['date']
-    
-    def __str__(self):
+def ajout_eleve(self):
         
-        return self.titre
-# Create your models here.
-"""
+    cursor = connection.cursor()
+    cursor.execute("SELECT ajout_eleve(%s,%s,%s,%s,%s,%s)",[self['nom'],self['prenom'],self['datenaissance'],self['lieunaissance'],self['telephone'],self['email']])
+    row = cursor.fetchone()
+    cursor.close()
+    return row
 
-def inscription_eleve(self):
-		
-	cursor = connection.cursor()
-	#cursor.callproc("SELECT * from televe") 
-	cursor.execute("SELECT insert_eleve(%s,%s,%s,%s,%s,%s)",[self['nom'],self['prenom'],self['datenaissance'],self['lieunaissance'],self['telephone'],self['email']])
-	row = cursor.fetchone()
-	cursor.close()
-	return row
-"""
-def modifie_eleve(self):
-		
-	cursor = connection.cursor()
-	#cursor.callproc("SELECT * from televe") 
-	cursor.execute("SELECT update_eleve(%s,%s,%s,%s,%s,%s)",[self['nom'],self['prenom'],self['datenaissance'],self['lieunaissance'],self['telephone'],self['email']])
-	row = cursor.fetchone()
-	cursor.close()
-	return row
-"""	
-"""
-def delete_eleve(self):
-		
-	cursor = connection.cursor()
-	#cursor.callproc("SELECT * from televe") 
-	cursor.execute("SELECT update_eleve(%s,%s,%s,%s,%s,%s)",[self['nom'],self['prenom'],self['datenaissance'],self['lieunaissance'],self['telephone'],self['email']])
-	row = cursor.fetchone()
-	cursor.close()
-	return row	"""
+def ajout_tuteur(self):
+        
+    cursor = connection.cursor()
+    cursor.execute("SELECT ajout_tuteur(%s,%s,%s,%s)",[self['nom'],self['prenom'],self['telephone'],self['email']])
+    #cursor.execute("SELECT ajout_tuteur(%s,%s,%s,%s)",nom,prenom,telephone,email)
+    row = cursor.fetchone()
+    cursor.close()
+    return row
+
+def ajout_etablissement(self):
+        
+    cursor = connection.cursor()
+    cursor.execute("SELECT ajout_etablissement(%s,%s)",[self['nom'],self['adresse']])
+    row = cursor.fetchone()
+    cursor.close()
+    return row

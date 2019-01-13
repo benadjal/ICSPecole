@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Acceuil</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<style type="text/css">
+		body {
+			background-image: url("ecole\'static\'imgecole.png");
+		}	
+		ul {
+  			list-style-type: none;
+  			margin: 0;
+  			padding: 0;
+  			overflow: hidden;
+  			background-color: #dddddd
+		}
+
+		li {
+			display: inline;
+			float: left;
+		}
+		
+		li a {
+  			display: block;
+  			padding: 8px;
+  			background-color: #dddddd;
+		}
+
+		li a:hover {
+  			background-color: #111;
+		}
+	</style>
+</head>
+<body>
+<header>
+	{% block header %}		
+  	<div>
+  		<ul>
+        	<li class="crumb"><a href="eleve/inscription">Eleve</a></li>
+        	<li class="crumb"><a href="bikes/bmx">Professeur</a></li>
+        	<li class="crumb"><a href="bikes/bmx">Administration</a></li>
+    	</ul>
+  	</div>
+  	{% endblock %}
+</header>
+	{% block body %}{% endblock %}
+</body>
+</html>
